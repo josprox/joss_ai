@@ -1,0 +1,3 @@
+// joss_ai entry point
+// Bridges the native AI and ChatClient implementations.
+print("[joss_ai] Cargado plugin oficial de Inteligencia Artificial.")
