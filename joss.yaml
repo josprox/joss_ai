@@ -3,6 +3,7 @@ version: 1.0.0
 description: Plugin oficial para integración con Inteligencia Artificial (AI y ChatClient) en Joss.
 repository: https://github.com/josprox/joss_ai
 license: MIT
-type: go_extension
-files:
-  - native_ai.go
+environment:
+  joss: ">=3.4.1 <4.0.0"
+entry:
+  main: src/plugin.joss
