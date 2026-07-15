@@ -46,9 +46,9 @@ jobs:
         id: manifest
         shell: bash
         run: |
-          name="$(awk -F': *' '$1 == "name" { print $2; exit }' joss.yaml | tr -d '[:space:]')"
-          version="$(awk -F': *' '$1 == "version" { print $2; exit }' joss.yaml | tr -d '[:space:]')"
-          if [[ -z "$name" || -z "$version" || ! "$version" =~ ^[0-9]+\\.[0-9]+\\.[0-9]+([-.][0-9A-Za-z.-]+)?$ ]]; then
+          name="$(grep -m1 '^name:' joss.yaml | cut -d ':' -f2- | xargs)"
+          version="$(grep -m1 '^version:' joss.yaml | cut -d ':' -f2- | xargs)"
+          if [[ -z "$name" || -z "$version" ]] || ! printf '%s' "$version" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+([-.][0-9A-Za-z.-]+)?$'; then
             echo "joss.yaml debe declarar name y una version SemVer valida." >&2
             exit 1
           fi
