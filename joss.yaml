@@ -1,8 +1,19 @@
 name: joss_ai
-version: 1.0.0
+version: 2.0.0
 description: Plugin oficial para integración con Inteligencia Artificial (AI y ChatClient) en Joss.
 repository: https://github.com/josprox/joss_ai
 license: MIT
-type: go_extension
-files:
-  - native_ai.go
+type: joss
+environment:
+  joss: ">=3.6.0"
+entry:
+  main: src/plugin.joss
+native:
+  protocol: joss-rpc-v1
+  windows-amd64: native/windows-amd64/joss_ai.exe
+  windows-arm64: native/windows-arm64/joss_ai.exe
+  linux-amd64: native/linux-amd64/joss_ai
+  linux-arm64: native/linux-arm64/joss_ai
+  darwin-amd64: native/darwin-amd64/joss_ai
+  darwin-arm64: native/darwin-arm64/joss_ai
+dependencies:

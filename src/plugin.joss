@@ -1,0 +1,60 @@
+class AI {
+    function client() {
+        return new ChatClient()
+    }
+
+    function chat($provider, $model, $messages) {
+        return Plugin::call("joss_ai", "chat", [$provider, $model, $messages])
+    }
+}
+
+class ChatClient {
+    Init constructor() {
+        $this->provider = ""
+        $this->model = ""
+        $this->messages = []
+    }
+
+    function provider($provider) {
+        $this->provider = $provider
+        return $this
+    }
+
+    function model($model) {
+        $this->model = $model
+        return $this
+    }
+
+    function user($content) {
+        $this->messages[] = {"role": "user", "content": $content}
+        return $this
+    }
+
+    function prompt($content) {
+        return $this->user($content)
+    }
+
+    function system($content) {
+        $this->messages[] = {"role": "system", "content": $content}
+        return $this
+    }
+
+    function assistant($content) {
+        $this->messages[] = {"role": "assistant", "content": $content}
+        return $this
+    }
+
+    function call() {
+        return Plugin::call("joss_ai", "content", [$this->provider, $this->model, $this->messages])
+    }
+
+    function stream($callback) {
+        return Plugin::stream("joss_ai", "stream", [$this->provider, $this->model, $this->messages], $callback)
+    }
+
+    function streamTo($ws) {
+        return Plugin::stream("joss_ai", "stream", [$this->provider, $this->model, $this->messages], function ($chunk) {
+            $ws->send(JSON::encode({"type": "chunk", "content": $chunk}))
+        })
+    }
+}
